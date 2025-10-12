@@ -1,0 +1,23 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Run Playground",
+      "type": "shell",
+      "command": "cmd.exe",
+      "args": [
+        "/C",
+        "g++ -std=c++17 playground\\main.cpp -o playground\\main.exe && playground\\main.exe < playground\\input.txt > playground\\output.txt"
+      ],
+      "problemMatcher": [],
+      "presentation": {
+        "echo": false,
+        "reveal": "silent",
+        "focus": false,
+        "panel": "shared",
+        "showReuseMessage": false,
+        "clear": true
+      }
+    }
+  ]
+}
