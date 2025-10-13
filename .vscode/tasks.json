@@ -7,7 +7,7 @@
       "command": "cmd.exe",
       "args": [
         "/C",
-        "g++ -std=c++17 playground\\main.cpp -o playground\\main.exe && playground\\main.exe < playground\\input.txt > playground\\output.txt"
+        "g++ -std=c++17 playground\\main.cpp -o playground\\main.exe -Wl,--stack,268435456 && playground\\main.exe < playground\\input.txt > playground\\output.txt"
       ],
       "problemMatcher": [],
       "presentation": {
