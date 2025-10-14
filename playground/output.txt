@@ -1,1 +1,2 @@
-Solution: 1
+Solution1: 55
+Solution2: 55
