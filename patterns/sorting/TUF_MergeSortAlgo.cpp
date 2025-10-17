@@ -15,58 +15,48 @@
  */
 
 #include <bits/stdc++.h>
-#define ARR_MAX 1000
 
 using namespace std;
 
-void merge(int arr[], int low, int mid, int high) {
-  int temp[ARR_MAX];
-  int idx = 0;
+void merge(vector<int>& arr, int low, int pivot, int high) {
+  vector<int> temp;
   int left = low;
-  int right = mid + 1;
-  while (left <= mid && right <= high) {
+  int right = pivot + 1;
+
+  // compare and push
+  while (left <= pivot && right <= high) {
     if (arr[left] < arr[right]) {
-      temp[idx++] = arr[left];
+      temp.push_back(arr[left]);
       left++;
     } else {
-      temp[idx++] = arr[right];
+      temp.push_back(arr[right]);
       right++;
     }
   }
-  while (left <= mid) {
-    temp[idx++] = arr[left];
-    left++;
-  }
-  while (right <= high) {
-    temp[idx++] = arr[right];
-    right++;
-  }
 
-  cout << idx << " || ";
-  for (int i = low, j = 0; i <= high; i++, j++) {
-    cout << temp[j] << ",";
-    arr[i] = temp[j];
-  }
-  cout << "\n";
+  // push the rest
+  while (left <= pivot) temp.push_back(arr[left++]);
+  while (right <= high) temp.push_back(arr[right++]);
+
+  // replace the original
+  for (int i = low; i <= high; i++) arr[i] = temp[i - low];
 }
 
-void merge_sort(int arr[], int low, int high) {
+void merge_sort(vector<int>& arr, int low, int high) {
   // base case
-  if (low == high) return;
+  if (low >= high) return;
 
   // divide
-  int target = (low + high) / 2;
-  merge_sort(arr, low, target);
-  merge_sort(arr, target + 1, high);
-  merge(arr, low, target, high);
+  int pivot = low + (high - low) / 2;
+  merge_sort(arr, low, pivot);
+  merge_sort(arr, pivot + 1, high);
+  merge(arr, low, pivot, high);
 }
 
 int main() {
-  int N;
-  int arr[ARR_MAX];
-  cin >> N;
-  for (int i = 0; i < N; i++) cin >> arr[i];
-  merge_sort(arr, 0, N - 1);
-  for (int i = 0; i < N; i++) cout << arr[i] << ", ";
+  vector<int> arr = {4, 6, 2, 5, 7, 9, 1, 3};
+  int n = arr.size();
+  merge_sort(arr, 0, n - 1);
+  for (auto it : arr) cout << it << ", ";
   return 0;
 }

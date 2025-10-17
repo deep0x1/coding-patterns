@@ -1,41 +1,62 @@
 /**
  *
  * Source:    TUF
- * Problem:   Recursive Insertion Sort Algorithm
- * Link:      https://takeuforward.org/arrays/recursive-insertion-sort-algorithm/
+ * Problem:   Merge Sort Algorithm
+ * Link:
+ * https://takeuforward.org/data-structure/merge-sort-algorithm/
  *
  *
  * Approach 1:
- * comparing the key element with elemens before it untill correct position is
- * found while shifting all compared element to the right, recursivly calling it
- * with pvoit+1 untill end is reached;
+ * divide the array into two sub parts and apply merge sort on each, untill
+ * singular array are not reached, once returning from singular arrays use
+ * `merge` to compare and merge them into a new array using a temp arry and then
+ * replacing original array's subsection with temp array.
  *
  */
 
 #include <bits/stdc++.h>
-#define ARR_MAX 1000
 
 using namespace std;
 
-void insertion_sort(int arr[], int pivot, int size) {
-  // base case
-  if (pivot > size) return;
+void merge(vector<int>& arr, int low, int pivot, int high) {
+  vector<int> temp;
+  int left = low;
+  int right = pivot + 1;
 
-  int key = arr[pivot];
-  int temp = pivot - 1;
-  while (temp >= 0 && arr[temp] > key) {
-    arr[temp + 1] = arr[temp];
-    temp--;
+  // compare and push
+  while (left <= pivot && right <= high) {
+    if (arr[left] < arr[right]) {
+      temp.push_back(arr[left]);
+      left++;
+    } else {
+      temp.push_back(arr[right]);
+      right++;
+    }
   }
-  arr[temp + 1] = key;
-  insertion_sort(arr, pivot + 1, size);
+
+  // push the rest
+  while (left <= pivot) temp.push_back(arr[left++]);
+  while (right <= high) temp.push_back(arr[right++]);
+
+  // replace the original
+  for (int i = low; i <= high; i++) arr[i] = temp[i - low];
+}
+
+void merge_sort(vector<int>& arr, int low, int high) {
+  // base case
+  if (low >= high) return;
+
+  // divide
+  int pivot = low + (high - low) / 2;
+  merge_sort(arr, low, pivot);
+  merge_sort(arr, pivot + 1, high);
+  merge(arr, low, pivot, high);
 }
 
 int main() {
-  int N, arr[ARR_MAX];
-  cin >> N;
-  for (int i = 0; i < N; i++) cin >> arr[i];
-  insertion_sort(arr, 1, N - 1);
-  for (int i = 0; i < N; i++) cout << arr[i] << ", ";
+  vector<int> arr = {4, 6, 2, 5, 7, 9, 1, 3};
+  int n = arr.size();
+  merge_sort(arr, 0, n - 1);
+  for (auto it : arr) cout << it << ", ";
   return 0;
 }
