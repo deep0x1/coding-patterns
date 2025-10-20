@@ -7,7 +7,7 @@
  *
  *
  * Approach 1: optimal
- * prefix sum approach
+ * using set datatype
  *
  */
 
