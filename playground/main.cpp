@@ -1,8 +1,8 @@
 /**
  *
  * Source:    LeetCode
- * Problem:   35. Search Insert Position
- * Link:      https://leetcode.com/problems/search-insert-position/description/
+ * Problem:   34. Find First and Last Position of Element in Sorted Array
+ * Link:      https://leetcode.com/problems/find-first-and-last-position-of-element-in-sorted-array/
  *
  *
  * Approach 1:
@@ -14,30 +14,43 @@
 
 using namespace std;
 
-int searchInsert(vector<int>& nums, int target) {
+vector<int> searchRange(vector<int>& nums, int target) {
+  // edge case
+  if (nums.empty()) return {-1, -1};
+
+  int n = nums.size() - 1;
   int left = 0;
-  int right = nums.size() - 1;
-  int ans = 0;
+  int right = n;
+  int idx = -1;
 
   while (left <= right) {
     int mid = (left + right) / 2;
 
-    if (nums[mid] >= target) {
+    if (nums[mid] > target) {
       right = mid - 1;
-      ans = mid;
     } else if (nums[mid] < target) {
       left = mid + 1;
-      ans = left;
+    } else {
+      idx = mid;
+      break;
     }
   }
 
-  return ans;
+  // no result
+  if (idx == -1) return {-1, -1};
+
+  // if result
+  left = right = idx;
+  while (left >= 1 && nums[left - 1] == target) left--;
+  while (right <= n - 1 && nums[right + 1] == target) right++;
+
+  return {left, right};
 }
 
 int main() {
-  int target = 5;
-  vector<int> arr = {1, 3, 5, 6};
-  int ans = searchInsert(arr, target);
-  cout << ans;
+  int target = 1;
+  vector<int> arr = {1};
+  vector<int> ans = searchRange(arr, target);
+  cout << ans[0] << ", " << ans[1];
   return 0;
 }
