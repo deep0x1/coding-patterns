@@ -9,6 +9,11 @@
  * Approach 1:
  * using unoredred set and linkedlist
  *
+ * Approach 2: Optimal
+ * using hasharray, in this specific case our max possible vlaue of num[i] is
+ * 10^5 so using a bool array is much better approach for checking rather than
+ * set or hashmap
+ *
  */
 
 #include <bits/stdc++.h>
@@ -46,6 +51,29 @@ ListNode* modifiedList(vector<int>& nums, ListNode* head) {
   return new_head;
 }
 
+ListNode* modifiedListOptimal(vector<int>& nums, ListNode* head) {
+  vector<bool> to_del(100001, false);  // 100001 (max elem)
+  for (auto n : nums) to_del[n] = true;
+
+  ListNode* dummy = new ListNode(0);
+  dummy->next = head;
+
+  ListNode* tail = dummy;
+
+  while (head != nullptr) {
+    if (to_del[head->val] == false) {
+      tail->next = head;
+      tail = tail->next;
+    }
+    head = head->next;
+  }
+  tail->next = nullptr;
+
+  ListNode* new_head = dummy->next;
+  delete dummy;
+  return new_head;
+}
+
 int main() {
   vector<int> nums = {1};
 
@@ -56,7 +84,7 @@ int main() {
   ListNode* n2 = new ListNode(2, n3);
   ListNode* n1 = new ListNode(1, n2);
 
-  ListNode* ans = modifiedList(nums, n1);
+  ListNode* ans = modifiedListOptimal(nums, n1);
   while (ans != nullptr) {
     cout << ans->val << " -> ";
     ans = ans->next;
