@@ -4,10 +4,10 @@
     {
       "label": "Run Playground",
       "type": "shell",
-      "command": "cmd.exe",
+      "command": "bash",
       "args": [
-        "/C",
-        "g++ -std=c++17 playground\\main.cpp -o playground\\main.exe -Wl,--stack,268435456 && playground\\main.exe < playground\\input.txt > playground\\output.txt"
+        "-c",
+        "g++ -std=c++17 playground/main.cpp -o playground/main && ./playground/main < playground/input.txt > playground/output.txt"
       ],
       "problemMatcher": [],
       "presentation": {
@@ -17,6 +17,10 @@
         "panel": "shared",
         "showReuseMessage": false,
         "clear": true
+      },
+      "group": {
+        "kind": "test",
+        "isDefault": true
       }
     }
   ]
