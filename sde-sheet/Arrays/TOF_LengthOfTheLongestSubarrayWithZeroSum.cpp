@@ -22,9 +22,9 @@
 using namespace std;
 
 int longestSubarraySum(vector<int>& nums) {
-  unordered_map<int, int> totalSum;
+  unordered_map<long long, int> totalSum;
   int n = nums.size();
-  int currentSum = 0;
+  long long currentSum = 0;
   int longestSubarray = 0;
 
   totalSum[currentSum] = -1;
