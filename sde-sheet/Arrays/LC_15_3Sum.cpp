@@ -1,7 +1,7 @@
 /**
  *
  * Source:    LC
- * Problem:   138. Copy List with Random Pointer
+ * Problem:   15. 3Sum
  *
  *
  * Link:
@@ -13,7 +13,8 @@
  *
  *
  * Approach:
- * fixing first element and then using two pointer approach as in to solve 2Sum problem
+ * fixing first element and then using two pointer approach as in to solve 2Sum
+ * problem
  *
  */
 
