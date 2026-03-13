@@ -24,28 +24,31 @@ using namespace std;
 
 int trap(vector<int>& height) {
   int n = height.size();
-  vector<int> leftMax(n);
-  vector<int> rightMax(n);
+  int left = 0;
+  int right = n - 1;
+  int maxLeft = 0;
+  int maxRight = 0;
+  int totalWater = 0;
 
-  int temp = 0;
-  for (int i = 0; i < n; i++) {
-    temp = max(height[i], temp);
-    leftMax[i] = temp;
+  while (left < right) {
+    if (height[left] <= height[right]) {
+      if (height[left] >= maxLeft) {
+        maxLeft = height[left];
+      } else {
+        totalWater += maxLeft - height[left];
+      }
+      left++;
+    } else {
+      if (height[right] >= maxRight) {
+        maxRight = height[right];
+      } else {
+        totalWater += maxRight - height[right];
+      }
+      right--;
+    }
   }
 
-  temp = 0;
-  for (int i = n - 1; i >= 0; i--) {
-    temp = max(height[i], temp);
-    rightMax[i] = temp;
-  }
-
-  int water = 0;
-  for (int i = 1; i < n - 1; i++) {
-    int waterAbove = min(leftMax[i], rightMax[i]) - height[i];
-    if (waterAbove > 0) water += waterAbove;
-  }
-
-  return water;
+  return totalWater;
 }
 
 int main() {
