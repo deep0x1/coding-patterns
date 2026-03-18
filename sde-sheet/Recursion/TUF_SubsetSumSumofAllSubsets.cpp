@@ -8,13 +8,13 @@
  * https://takeuforward.org/data-structure/subset-sum-sum-of-all-subsets
  *
  *
- * Time: O(N^2)
+ * Time: O(2^N)
  * Space: O(2^N)
  *
  *
  * Approach:
- * using bitmask approach, where we use 0 -> 2^n-1 numbers as mask and then only
- * add elements from nums which colide with mask (&)
+ * using recursive solve function to create binary branch, 1 where we add the
+ * current sum, 1 where we don't
  *
  */
 
@@ -22,20 +22,19 @@
 
 using namespace std;
 
-vector<int> findSubsetSum(vector<int> nums) {
-  int n = nums.size();
-  vector<int> subset_sum;
-
-  for (int mask = 0; mask < (1 << n); mask++) {
-    int sum = 0;
-    for (int i = 0; i < n; i++) {
-      if (mask & (1 << i)) {
-        sum += nums[i];
-      }
-    }
+void solve(int idx, vector<int>& nums, int sum, vector<int>& subset_sum) {
+  if (idx >= nums.size()) {
     subset_sum.push_back(sum);
+    return;
   }
 
+  solve(idx + 1, nums, sum + nums[idx], subset_sum);
+  solve(idx + 1, nums, sum, subset_sum);
+}
+
+vector<int> findSubsetSum(vector<int>& nums) {
+  vector<int> subset_sum;
+  solve(0, nums, 0, subset_sum);
   sort(subset_sum.begin(), subset_sum.end());
   return subset_sum;
 }
